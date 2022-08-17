@@ -37,7 +37,6 @@ module.exports = {
     }),
   ],
   module: {
-    strictExportPresence: true,
     rules: [
       {
         test: /\.(ts|tsx)$/,
