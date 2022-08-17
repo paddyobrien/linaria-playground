@@ -10,6 +10,7 @@ module.exports = function babel(api) {
   const isDevelopmentEnv = api.env("development");
   const isProductionEnv = api.env("production");
   const isTestEnv = api.env("test");
+  const currentEnv = api.env();
 
   return {
     presets: [

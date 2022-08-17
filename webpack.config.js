@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { ESBuildMinifyPlugin } = require("esbuild-loader");
+
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -10,7 +10,7 @@ const test = process.env.NODE_ENV === "test";
 module.exports = {
   mode: dev ? "development" : "production",
   entry: {
-    app: "./src/index.tsx"
+    main: "./src/index.tsx"
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -24,20 +24,8 @@ module.exports = {
     },
   },
   target: "web",
-  optimization: {
-    minimizer: [
-      new ESBuildMinifyPlugin({
-        target: [
-          "es2015",
-          "chrome60",
-          "firefox60",
-          "safari13",
-          "edge25",
-          "node14",
-        ],
-        css: true,
-      }),
-    ],
+  resolve: {
+    extensions: [".tsx", ".ts",  ".js"]
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: "styles.css" }),
@@ -49,9 +37,11 @@ module.exports = {
     }),
   ],
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(ts|tsx)$/,
+        include: [__dirname + '/src'],
         exclude: /node_modules/,
         use: [
           { loader: "babel-loader" },
